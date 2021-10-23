@@ -1,6 +1,7 @@
 import { Controller } from '@/presentation/protocols/controller'
 import { HttpRequest, HttpResponse } from '@/presentation/protocols/http'
 import { Validation } from '@/presentation/protocols/validation'
+import { badRequest } from '@/presentation/helpers/http'
 
 export class SignupController implements Controller {
   constructor (private readonly validation: Validation) {}
@@ -8,8 +9,8 @@ export class SignupController implements Controller {
   async handle (httpRequest: HttpRequest) : Promise<HttpResponse> {
     const validationError = await this.validation.validate(httpRequest.body)
     if (validationError) {
-      return { statusCode: 400, body: new Error() }
+      return badRequest(validationError)
     }
-    return Promise.resolve({ statusCode: 200 })
+    return { statusCode: 200 }
   }
 }
