@@ -24,6 +24,11 @@ describe('Bcrypt Adapter', () => {
       await sut.hash('any_value')
       expect(bcryptSpy).toHaveBeenCalledWith('any_value', SALT)
     })
+
+    test('should return hashed value correctly on success', async () => {
+      const hashedValue = await sut.hash('some_value')
+      expect(hashedValue).toBe('hashed_value')
+    })
   })
 
   test('should throw if bcrypt throws', async () => {
