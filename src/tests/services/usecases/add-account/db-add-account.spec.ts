@@ -90,4 +90,15 @@ describe('DbAddAccount', () => {
     const fakeParams = { ...makeFakeAccountParams(), password: 'hashed_pwd' }
     expect(addSpy).toHaveBeenCalledWith(fakeParams)
   })
+
+  test('should return an account on success', async () => {
+    const account = await sut.add(makeFakeAccountParams())
+    expect(account).toEqual({
+      email: 'any_email',
+      name: 'any_name',
+      password: 'hashed_pwd',
+      role: 'any_role',
+      id: 'any_id'
+    })
+  })
 })
