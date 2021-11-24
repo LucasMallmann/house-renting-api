@@ -11,24 +11,26 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@shelf/jest-mongodb": "^2.1.0",
     "@types/bcrypt": "^5.0.0",
     "@types/jest": "^27.0.2",
-    "@types/node": "^16.11.1",
-    "@typescript-eslint/eslint-plugin": "^5.1.0",
-    "@typescript-eslint/parser": "^5.1.0",
+    "@types/mongoose": "^5.11.97",
+    "@types/node": "^16.11.7",
+    "@typescript-eslint/eslint-plugin": "^5.3.1",
+    "@typescript-eslint/parser": "^5.3.1",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-import-resolver-typescript": "^2.5.0",
-    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-promise": "^5.1.1",
     "git-commit-msg-linter": "^3.2.8",
-    "husky": "^7.0.2",
+    "husky": "^7.0.4",
     "jest": "^27.3.1",
-    "lint-staged": "^11.2.3",
+    "lint-staged": "^11.2.6",
     "prettier": "^2.4.1",
     "ts-jest": "^27.0.7",
     "typescript": "^4.4.4"
@@ -37,6 +39,7 @@
     "*.ts": "eslint 'src/**' --fix"
   },
   "dependencies": {
-    "bcrypt": "^5.0.1"
+    "bcrypt": "^5.0.1",
+    "mongoose": "^6.0.12"
   }
 }
