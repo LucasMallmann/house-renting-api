@@ -27,4 +27,4 @@ accountSchema.virtual('id').get(function () {
   return this._id.toHexString()
 })
 
-export const Account: Model<AccountMongooseModel> = mongoose.model('Account', accountSchema)
+export const AccountModelMongoose: Model<AccountMongooseModel> = mongoose.model('Account', accountSchema)

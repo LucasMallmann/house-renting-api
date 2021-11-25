@@ -13,6 +13,10 @@ export const MongoHelper = {
     if (this.connection) {
       await mongoose.disconnect()
     }
-  }
+  },
 
+  withId (collection: any): any {
+    const { _id, __v, ...collectionWithouId } = collection
+    return { id: _id, ...collectionWithouId }
+  }
 }
