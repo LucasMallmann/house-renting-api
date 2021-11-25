@@ -43,8 +43,6 @@ describe('Account Mongo Repository', () => {
 
     const loadedAccount = await sut.loadByEmail(account.email)
 
-    console.log(loadedAccount)
-
     expect(loadedAccount).toBeTruthy()
     expect(loadedAccount?.id).toBeTruthy()
     expect(loadedAccount?.name).toBe('any_name')
