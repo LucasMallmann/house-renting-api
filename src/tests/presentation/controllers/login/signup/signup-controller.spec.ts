@@ -1,5 +1,5 @@
 import { AddAccount, AddAccountParams } from '@/domain/usecases/add-account'
-import { AccountModel } from '@/models/account'
+import { AccountModel } from '@/domain/models/account'
 import { SignupController } from '@/presentation/controllers/login/signup/signup-controller'
 import { HttpRequest } from '@/presentation/protocols/http'
 import { Validation } from '@/presentation/protocols/validation'
