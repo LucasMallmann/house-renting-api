@@ -1,7 +1,7 @@
 // Post.ts
 import mongoose, { Document, Model } from 'mongoose'
 
-export interface AccountMongooseModel extends Document {
+interface AccountModel extends Document {
   name: string
   email: string
   password: string
@@ -27,4 +27,4 @@ accountSchema.virtual('id').get(function () {
   return this._id.toHexString()
 })
 
-export const AccountModelMongoose: Model<AccountMongooseModel> = mongoose.model('Account', accountSchema)
+export const AccountMongooseModel: Model<AccountModel> = mongoose.model('Account', accountSchema)
