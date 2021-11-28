@@ -16,7 +16,7 @@ describe('Body Parser', () => {
       return response.json(request.body)
     })
 
-    request(app)
+    await request(app)
       .post('/test_body_parser')
       .send({ name: 'john' })
       .expect('Content-Type', /json/)
