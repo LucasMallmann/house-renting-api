@@ -45,6 +45,7 @@
   "dependencies": {
     "bcrypt": "^5.0.1",
     "express": "^4.17.1",
+    "module-alias": "^2.2.2",
     "mongoose": "^6.0.12"
   }
 }
