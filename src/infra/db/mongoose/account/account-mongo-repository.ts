@@ -4,8 +4,13 @@ import { AddAccountRepository } from '@/services/protocols/db/account/add-accoun
 import { LoadAccountByEmailRepository } from '@/services/protocols/db/account/load-account-by-email-repository'
 import { MongoHelper } from '../helpers/mongo-helper'
 import { AccountMongooseModel } from '../models/mongoose-account-model'
+import { UpdateAccessTokenRepository } from '@/services/protocols/db/account/update-access-token-repository'
 
-export class AccountMongoRepository implements AddAccountRepository, LoadAccountByEmailRepository {
+export class AccountMongoRepository
+implements
+  AddAccountRepository,
+  LoadAccountByEmailRepository,
+  UpdateAccessTokenRepository {
   async add (account: AddAccountParams): Promise<AccountModel> {
     const accountDocument = new AccountMongooseModel(account)
     const createdAccount = await accountDocument.save()
@@ -18,5 +23,9 @@ export class AccountMongoRepository implements AddAccountRepository, LoadAccount
       return MongoHelper.withId(account?.toObject())
     }
     return null
+  }
+
+  async updateAccessToken (accountId: string, accessToken: string): Promise<void> {
+    await AccountMongooseModel.findByIdAndUpdate(accountId, { accessToken })
   }
 }

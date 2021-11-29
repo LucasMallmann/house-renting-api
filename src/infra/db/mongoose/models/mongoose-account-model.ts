@@ -6,6 +6,7 @@ interface AccountModel extends Document {
   email: string
   password: string
   role?: string
+  accessToken?: string
 }
 
 const accountSchema = new mongoose.Schema({
@@ -19,6 +20,9 @@ const accountSchema = new mongoose.Schema({
     type: String
   },
   role: {
+    type: String
+  },
+  accessToken: {
     type: String
   }
 })
