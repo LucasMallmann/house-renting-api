@@ -3,6 +3,7 @@ import { AccountModel } from '@/domain/models/account'
 import { SignupController } from '@/presentation/controllers/login/signup/signup-controller'
 import { HttpRequest } from '@/presentation/protocols/http'
 import { Validation } from '@/presentation/protocols/validation'
+import { serverError, ok } from '@/presentation/helpers/http'
 
 const makeFakeValidation = (): Validation => {
   class ValidationStub implements Validation {
@@ -71,10 +72,24 @@ describe('SignupController', () => {
 
   test('should return 500 if AddAccount throws an exception', async () => {
     const httpRequest = makeFakeHttpRequest()
+    const fakeError = new Error()
+    fakeError.stack = 'fake_stack'
     jest.spyOn(addAccountStub, 'add').mockImplementationOnce(async () => {
-      return Promise.reject(new Error())
+      return Promise.reject(fakeError)
     })
     const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse).toEqual(serverError(fakeError))
+  })
+
+  test('should return 200 on AddAccount success', async () => {
+    const httpRequest = makeFakeHttpRequest()
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual(ok({
+      id: 'any_id',
+      name: 'any_name',
+      email: 'any_email',
+      password: 'any_password',
+      role: 'any_role'
+    }))
   })
 })
