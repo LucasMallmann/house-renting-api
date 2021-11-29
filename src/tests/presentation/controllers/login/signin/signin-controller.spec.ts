@@ -53,7 +53,7 @@ describe('SigninController', () => {
     const httpRequest = makeFakeHttpRequest()
     const fakeError = new Error()
     jest.spyOn(authenticationStub, 'auth').mockImplementationOnce(() => {
-      throw new Error()
+      throw fakeError
     })
     const response = await sut.handle(httpRequest)
     expect(response).toEqual(serverError(fakeError))
