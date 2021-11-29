@@ -2,6 +2,7 @@ import { HttpRequest } from '@/presentation/protocols/http'
 import { Validation } from '@/presentation/protocols/validation'
 import { Authentication, AuthenticationParams } from '@/domain/usecases/authentication'
 import { SigninController } from '@/presentation/controllers/login/signin/signin-controller'
+import { serverError } from '@/presentation/helpers/http'
 
 const makeFakeValidation = (): Validation => {
   class ValidationStub implements Validation {
@@ -46,5 +47,15 @@ describe('SigninController', () => {
       email: 'any_email',
       password: 'any_password'
     })
+  })
+
+  test('should return 500 if Authentication throws', async () => {
+    const httpRequest = makeFakeHttpRequest()
+    const fakeError = new Error()
+    jest.spyOn(authenticationStub, 'auth').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const response = await sut.handle(httpRequest)
+    expect(response).toEqual(serverError(fakeError))
   })
 })
