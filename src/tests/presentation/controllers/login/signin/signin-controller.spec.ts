@@ -2,7 +2,7 @@ import { HttpRequest } from '@/presentation/protocols/http'
 import { Validation } from '@/presentation/protocols/validation'
 import { Authentication, AuthenticationParams } from '@/domain/usecases/authentication'
 import { SigninController } from '@/presentation/controllers/login/signin/signin-controller'
-import { serverError } from '@/presentation/helpers/http'
+import { serverError, unauthorized, ok } from '@/presentation/helpers/http'
 
 const makeFakeValidation = (): Validation => {
   class ValidationStub implements Validation {
@@ -57,5 +57,18 @@ describe('SigninController', () => {
     })
     const response = await sut.handle(httpRequest)
     expect(response).toEqual(serverError(fakeError))
+  })
+
+  test('should return 401 if Authentication returns null', async () => {
+    const httpRequest = makeFakeHttpRequest()
+    jest.spyOn(authenticationStub, 'auth').mockReturnValueOnce(Promise.resolve(null))
+    const response = await sut.handle(httpRequest)
+    expect(response).toEqual(unauthorized())
+  })
+
+  test('should return 200 on success', async () => {
+    const httpRequest = makeFakeHttpRequest()
+    const response = await sut.handle(httpRequest)
+    expect(response).toEqual(ok({ acessToken: 'any_token' }))
   })
 })
