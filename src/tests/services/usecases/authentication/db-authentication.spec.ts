@@ -34,7 +34,7 @@ const makeFakeHashComparer = (): HashComparer => {
 const makeFakeEncrypter = (): Encrypter => {
   class EncrypterStub implements Encrypter {
     async encrypt (value: string): Promise<string> {
-      return Promise.resolve('any_encrypted_value_jwt')
+      return 'any_encrypted_value_jwt'
     }
   }
   return new EncrypterStub()
