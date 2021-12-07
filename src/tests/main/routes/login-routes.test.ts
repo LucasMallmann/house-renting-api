@@ -1,8 +1,8 @@
 import request from 'supertest'
 import { hash } from 'bcrypt'
 import { MongoHelper } from '@/infra/db/mongoose/helpers/mongo-helper'
-import app from '@/main/config/app'
 import { AccountMongooseModel } from '@/infra/db/mongoose/models/mongoose-account-model'
+import app from '@/main/config/app'
 
 describe('Login Routes', () => {
   beforeAll(async () => {

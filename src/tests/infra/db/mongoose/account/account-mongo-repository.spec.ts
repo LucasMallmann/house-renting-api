@@ -79,4 +79,47 @@ describe('Account Mongo Repository', () => {
       expect(updatedAccount?.toObject()?.accessToken).toBe('any_token')
     })
   })
+
+  describe('loadByToken()', () => {
+    test('should return null if loadByToken returns null', async () => {
+      const sut = makeSut()
+      const account = await sut.loadByToken('any_token', 'admin')
+      expect(account).toBeNull()
+    })
+
+    test('should return an account with correct role on success', async () => {
+      const sut = makeSut()
+      const account = new AccountMongooseModel({
+        name: 'any_name',
+        email: 'any_email@email.com',
+        password: 'any_password',
+        role: 'admin'
+      })
+      await account.save()
+      await sut.updateAccessToken(account?._id as string, 'some_random_token')
+      const loadedAccount = await sut.loadByToken('some_random_token', 'admin')
+      expect(loadedAccount).toBeTruthy()
+      expect(loadedAccount?.id).toBeTruthy()
+      expect(loadedAccount?.name).toBe('any_name')
+      expect(loadedAccount?.email).toBe('any_email@email.com')
+      expect(loadedAccount?.password).toBe('any_password')
+    })
+
+    test('should return an account with no role on success', async () => {
+      const sut = makeSut()
+      const account = new AccountMongooseModel({
+        name: 'any_name',
+        email: 'any_email@email.com',
+        password: 'any_password'
+      })
+      await account.save()
+      await sut.updateAccessToken(account?._id as string, 'some_random_token')
+      const loadedAccount = await sut.loadByToken('some_random_token')
+      expect(loadedAccount).toBeTruthy()
+      expect(loadedAccount?.id).toBeTruthy()
+      expect(loadedAccount?.name).toBe('any_name')
+      expect(loadedAccount?.email).toBe('any_email@email.com')
+      expect(loadedAccount?.password).toBe('any_password')
+    })
+  })
 })
