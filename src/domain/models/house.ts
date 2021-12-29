@@ -10,8 +10,8 @@ export type HouseModel = {
   state: string
   name: string
   location: {
-    lat: number
-    lon: number
+    type: string,
+    coordinates: number[]
   }
   address: Address
 }

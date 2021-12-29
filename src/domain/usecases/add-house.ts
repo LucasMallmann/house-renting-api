@@ -1,3 +1,5 @@
+import { HouseModel } from '../models/house'
+
 export type AddHouseParams = {
   name: string
   email: string,
