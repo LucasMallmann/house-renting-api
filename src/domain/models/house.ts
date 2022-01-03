@@ -14,4 +14,6 @@ export type HouseModel = {
     coordinates: number[]
   }
   address: Address
+  images: string[]
+  highlightImage: string
 }

@@ -13,7 +13,7 @@ const makeFakeValidation = (): Validation => {
 
 const makeFakeAddHouse = (): AddHouse => {
   class AddHouseStub implements AddHouse {
-    async add (account: AddHouseParams): Promise<HouseModel> {
+    async add (house: AddHouseParams): Promise<HouseModel> {
       const fakeHouse: HouseModel = {
         id: 'any_id',
         name: 'any_name',
@@ -27,7 +27,9 @@ const makeFakeAddHouse = (): AddHouse => {
           houseNumber: 0,
           street: 'any_street',
           zipCode: 'any_zipCode'
-        }
+        },
+        images: ['any_image'],
+        highlightImage: 'any_highlight_image'
       }
       return Promise.resolve(fakeHouse)
     }
