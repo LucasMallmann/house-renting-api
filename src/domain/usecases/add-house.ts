@@ -1,10 +1,8 @@
 import { HouseModel } from '../models/house'
 
-export type AddHouseParams = {
-  name: string
-  email: string,
-  password: string
-  role?: string
+export type AddHouseParams = Omit<HouseModel, 'id'> & {
+  images: string[]
+  highglightImage: string
 }
 
 export interface AddHouse {
