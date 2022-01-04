@@ -1,7 +1,7 @@
 import { HouseModel } from '@/domain/models/house'
 import { AddHouse, AddHouseParams } from '@/domain/usecases/add-house'
 import { AddHouseController } from '@/presentation/controllers/house/add-house/add-house-controller'
-import { badRequest } from '@/presentation/helpers/http'
+import { badRequest, serverError } from '@/presentation/helpers/http'
 import { Validation } from '@/presentation/protocols/validation'
 
 const makeFakeValidation = (): Validation => {
@@ -41,6 +41,7 @@ const makeFakeAddHouse = (): AddHouse => {
 type SutTypes = {
   sut: AddHouseController,
   validationStub: Validation,
+  addHouseStub: AddHouse
 }
 
 const makeSut = (): SutTypes => {
@@ -49,7 +50,8 @@ const makeSut = (): SutTypes => {
   const sut = new AddHouseController(addHouseStub, validationStub)
   return {
     sut,
-    validationStub
+    validationStub,
+    addHouseStub
   }
 }
 
@@ -59,5 +61,16 @@ describe('AddHouse Controller', () => {
     jest.spyOn(validationStub, 'validate').mockReturnValueOnce(Promise.resolve(new Error()))
     const httpResponse = await sut.handle({ body: {} })
     expect(httpResponse).toEqual(badRequest(new Error()))
+  })
+
+  test('should return 500 if AddHouse throws', async () => {
+    const { sut, addHouseStub } = makeSut()
+    const fakeError = new Error()
+    fakeError.stack = 'fake_stack'
+    jest.spyOn(addHouseStub, 'add').mockImplementationOnce(async () => {
+      return Promise.reject(fakeError)
+    })
+    const httpResponse = await sut.handle({ body: {} })
+    expect(httpResponse).toEqual(serverError(fakeError))
   })
 })
