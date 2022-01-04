@@ -1,7 +1,7 @@
 import { HouseModel } from '@/domain/models/house'
 import { AddHouse, AddHouseParams } from '@/domain/usecases/add-house'
 import { AddHouseController } from '@/presentation/controllers/house/add-house/add-house-controller'
-import { badRequest, serverError } from '@/presentation/helpers/http'
+import { badRequest, ok, serverError } from '@/presentation/helpers/http'
 import { Validation } from '@/presentation/protocols/validation'
 
 const makeFakeValidation = (): Validation => {
@@ -11,26 +11,31 @@ const makeFakeValidation = (): Validation => {
   return new ValidationStub()
 }
 
+const makeFakeHouse = () => {
+  const fakeHouse: HouseModel = {
+    id: 'any_id',
+    name: 'any_name',
+    city: 'any_city',
+    location: {
+      type: 'Point',
+      coordinates: [0, 0]
+    },
+    state: 'any_state',
+    address: {
+      houseNumber: 0,
+      street: 'any_street',
+      zipCode: 'any_zipCode'
+    },
+    images: ['any_image'],
+    highlightImage: 'any_highlight_image'
+  }
+  return fakeHouse
+}
+
 const makeFakeAddHouse = (): AddHouse => {
   class AddHouseStub implements AddHouse {
     async add (house: AddHouseParams): Promise<HouseModel> {
-      const fakeHouse: HouseModel = {
-        id: 'any_id',
-        name: 'any_name',
-        city: 'any_city',
-        location: {
-          type: 'Point',
-          coordinates: [0, 0]
-        },
-        state: 'any_state',
-        address: {
-          houseNumber: 0,
-          street: 'any_street',
-          zipCode: 'any_zipCode'
-        },
-        images: ['any_image'],
-        highlightImage: 'any_highlight_image'
-      }
+      const fakeHouse = makeFakeHouse()
       return Promise.resolve(fakeHouse)
     }
   }
@@ -72,5 +77,18 @@ describe('AddHouse Controller', () => {
     })
     const httpResponse = await sut.handle({ body: {} })
     expect(httpResponse).toEqual(serverError(fakeError))
+  })
+
+  test('should call AddHouse with correct values', async () => {
+    const { sut, addHouseStub } = makeSut()
+    const addSpy = jest.spyOn(addHouseStub, 'add')
+    await sut.handle({ body: { param: 'any' } })
+    expect(addSpy).toHaveBeenCalledWith({ param: 'any' })
+  })
+
+  test('should return the house on success', async () => {
+    const { sut } = makeSut()
+    const httpResponse = await sut.handle({ body: { param: 'any' } })
+    expect(httpResponse).toEqual(ok(makeFakeHouse()))
   })
 })

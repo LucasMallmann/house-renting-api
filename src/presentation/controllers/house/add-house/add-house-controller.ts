@@ -16,8 +16,8 @@ export class AddHouseController implements Controller {
       if (validationError) {
         return badRequest(validationError)
       }
-      await this.addHouse.add(httpRequest.body)
-      return ok({})
+      const house = await this.addHouse.add(httpRequest.body)
+      return ok(house)
     } catch (error) {
       return serverError(error)
     }
