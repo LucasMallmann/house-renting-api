@@ -7,7 +7,7 @@ export class DbAddHouse implements AddHouse {
   }
 
   async add (house: AddHouseParams): Promise<HouseModel> {
-    await this.addHouseRepository.addHouse(house)
-    return Promise.resolve(null as unknown as HouseModel)
+    const createdHouse = await this.addHouseRepository.addHouse(house)
+    return createdHouse
   }
 }
