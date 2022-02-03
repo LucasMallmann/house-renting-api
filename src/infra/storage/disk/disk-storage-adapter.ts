@@ -7,6 +7,6 @@ export class DiskStorageAdapter implements UploadMultipleFiles {
   ) {}
 
   saveFiles (files: string[]): Promise<string[]> {
-    throw new Error('Method not implemented.')
+    return Promise.resolve(files)
   }
 }
