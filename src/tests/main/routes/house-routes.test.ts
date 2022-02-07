@@ -18,6 +18,7 @@ describe('Login Routes', () => {
 
   describe('POST /houses', () => {
     test('should return 200 on adding a house success', async () => {
+      const a = 1
       const fakeHouse = {
         id: 'any_id',
         name: 'any_name',
