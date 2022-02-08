@@ -3,7 +3,8 @@ import { AccountModel } from '@/domain/models/account'
 import { SignupController } from '@/presentation/controllers/login/signup/signup-controller'
 import { HttpRequest } from '@/presentation/protocols/http'
 import { Validation } from '@/presentation/protocols/validation'
-import { serverError, ok } from '@/presentation/helpers/http'
+import { serverError, ok, forbidden } from '@/presentation/helpers/http'
+import { EmailInUseError } from '@/presentation/errors'
 
 const makeFakeValidation = (): Validation => {
   class ValidationStub implements Validation {
@@ -79,6 +80,15 @@ describe('SignupController', () => {
     })
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse).toEqual(serverError(fakeError))
+  })
+
+  test('should return 403 if email already exists', async () => {
+    const httpRequest = makeFakeHttpRequest()
+    // const emailInUse = new Error()
+    // fakeError.stack = 'fake_stack'
+    jest.spyOn(addAccountStub, 'add').mockReturnValueOnce(Promise.resolve(null))
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual(forbidden(new EmailInUseError()))
   })
 
   test('should return 200 on AddAccount success', async () => {

@@ -5,8 +5,15 @@ import { HouseMongooseModel } from '../models/mongoose-house-model'
 
 export class HouseMongoRepository implements AddHouseRepository {
   async addHouse (house: AddHouseParams): Promise<HouseModel> {
-    const houseDocument = new HouseMongooseModel(house)
-    const createdHouse = await houseDocument.save()
-    return { ...house, id: createdHouse._id }
+    try {
+      console.log('house: ', house)
+      const houseDocument = new HouseMongooseModel(house)
+      console.log('houseDocument', houseDocument)
+      const createdHouse = await houseDocument.save()
+      return { ...house, id: createdHouse._id }
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
   }
 }
