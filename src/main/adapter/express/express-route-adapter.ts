@@ -1,13 +1,14 @@
 import { Request, Response } from 'express'
 import { Controller } from '@/presentation/protocols/controller'
 import { HttpRequest } from '@/presentation/protocols/http'
+import { UploadFile } from '@/presentation/protocols/file'
 
 export const adaptRoute = (controller: Controller) => {
   return async (request: Request, response: Response) => {
     const httpRequest: HttpRequest = {
-      body: request.body
+      body: request.body,
+      files: request.files as UploadFile[]
     }
-    // console.log('Request Files', request.files)
 
     const httpResponse = await controller.handle(httpRequest)
 
