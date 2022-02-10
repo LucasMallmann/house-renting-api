@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "ts-node-dev -r tsconfig-paths/register src/main/server.ts",
     "dev:watch": "nodemon -r tsconfig-paths/register src/main/server.ts",
-    "test": "jest --passWithNoTests",
-    "test:unit": "npm test -- --watch -c jest-unit-config.js",
+    "test": "NODE_ENV=test jest --passWithNoTests",
+    "test:unit": "NODE_ENV=test npm test -- --watch -c jest-unit-config.js",
     "test:integration": "npm test -- --watch -c jest-integration-config.js",
     "test:ci": "npm test -- --coverage",
     "prepare": "husky install",

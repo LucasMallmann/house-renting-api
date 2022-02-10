@@ -1,7 +1,8 @@
 
 import { HouseModel } from '@/domain/models/house'
 import { AddHouseParams } from '@/domain/usecases/add-house'
-import { AddHouseRepository } from '@/services/protocols/db/house/add-house-repository'
+import { UploadFile } from '@/presentation/protocols/file'
+import { AddHouseRepository, AddHouseRepositoryParams } from '@/services/protocols/db/house/add-house-repository'
 import { UploadMultipleFiles } from '@/services/protocols/storage/upload-multiple-files'
 import { DbAddHouse } from '@/services/usecases/add-house/db-add-house'
 
@@ -20,10 +21,21 @@ const makeFakeHouse = () => {
       street: 'any_street',
       zipCode: 'any_zipCode'
     },
-    images: ['any_created_file'],
+    images: ['any_filename'],
     highlightImage: 'any_highlight_image'
   }
   return fakeHouse
+}
+
+const fakeFile: UploadFile = {
+  destination: 'any_destination',
+  encoding: 'any_encoding',
+  fieldname: 'any_fieldname',
+  filename: 'any_filename',
+  mimetype: 'any_mimetype',
+  originalname: 'any_originalname',
+  path: 'any_path',
+  size: 0
 }
 
 const makeFakeHouseParams = () => {
@@ -40,7 +52,7 @@ const makeFakeHouseParams = () => {
       street: 'any_street',
       zipCode: 'any_zipCode'
     },
-    images: ['any_image'],
+    images: [fakeFile],
     highlightImage: 'any_highlight_image'
   }
   return fakeHouse
@@ -48,8 +60,8 @@ const makeFakeHouseParams = () => {
 
 const makeAddHouseRepository = (): AddHouseRepository => {
   class AddHouseRepositoryStub implements AddHouseRepository {
-    async addHouse (house: HouseModel): Promise<HouseModel> {
-      return makeFakeHouse()
+    async addHouse (house: AddHouseRepositoryParams): Promise<HouseModel> {
+      return Promise.resolve(makeFakeHouse())
     }
   }
   return new AddHouseRepositoryStub()
@@ -57,7 +69,7 @@ const makeAddHouseRepository = (): AddHouseRepository => {
 
 const makeUploadFile = (): UploadMultipleFiles => {
   class UploadMultipleFilesStub implements UploadMultipleFiles {
-    async saveFiles (files: string[]): Promise<string[]> {
+    async saveFiles (files: UploadFile[]): Promise<string[]> {
       return ['any_created_file']
     }
   }
@@ -79,14 +91,14 @@ describe('DbAddHouse', () => {
     const addHouseSpy = jest.spyOn(addHouseRepositoryStub, 'addHouse')
     const fakeHouse = makeFakeHouseParams()
     await sut.add(fakeHouse)
-    expect(addHouseSpy).toHaveBeenCalledWith(fakeHouse)
+    expect(addHouseSpy).toHaveBeenCalledWith({ ...fakeHouse, images: ['any_created_file'] })
   })
 
   test('should call UploadFile with correct value', async () => {
     const uploadFileSpy = jest.spyOn(uploadFile, 'saveFiles')
     const fakeHouse = makeFakeHouseParams()
     await sut.add(fakeHouse)
-    expect(uploadFileSpy).toHaveBeenCalledWith(['any_image'])
+    expect(uploadFileSpy).toHaveBeenCalledWith([fakeFile])
   })
 
   test('should throw if AddHouseRepository throws', async () => {
@@ -113,7 +125,7 @@ describe('DbAddHouse', () => {
         street: 'any_street',
         zipCode: 'any_zipCode'
       },
-      images: ['any_created_file'],
+      images: ['any_filename'],
       highlightImage: 'any_highlight_image'
     })
   })

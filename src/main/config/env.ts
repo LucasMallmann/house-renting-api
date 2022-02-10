@@ -9,5 +9,6 @@ export default {
   jwtSecret: process.env.JWT_SECRET ?? 'j12H~12990wslWQKQW',
   salt: 12,
   uploadsFolder,
-  tmpFolder
+  tmpFolder,
+  env: process.env.NODE_ENV ?? 'development'
 }

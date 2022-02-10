@@ -16,18 +16,7 @@ export class AddHouseController implements Controller {
       if (validationError) {
         return badRequest(validationError)
       }
-
-      console.log(httpRequest.files)
-
-      const { location, ...addHouseParams } = httpRequest.body
-
-      const houseParams = {
-        location: JSON.parse(location),
-        ...addHouseParams,
-        images: httpRequest.files
-      }
-
-      const house = await this.addHouse.add(houseParams)
+      const house = await this.addHouse.add({ ...httpRequest.body, images: httpRequest.files })
       return ok(house)
     } catch (error) {
       return serverError(error)

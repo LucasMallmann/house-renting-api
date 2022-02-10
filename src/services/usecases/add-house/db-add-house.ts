@@ -12,8 +12,7 @@ export class DbAddHouse implements AddHouse {
 
   async add (house: AddHouseParams): Promise<HouseModel> {
     const filenames = await this.uploadMultipleFiles.saveFiles(house.images)
-    house.images = filenames
-    const createdHouse = await this.addHouseRepository.addHouse(house)
+    const createdHouse = await this.addHouseRepository.addHouse({ ...house, images: filenames })
     return createdHouse
   }
 }

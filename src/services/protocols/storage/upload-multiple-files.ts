@@ -1,3 +1,5 @@
+import { UploadFile } from '@/presentation/protocols/file'
+
 export interface UploadMultipleFiles {
-  saveFiles(files: string[]): Promise<string[]>
+  saveFiles(files?: UploadFile[]): Promise<string[]>
 }
