@@ -79,13 +79,6 @@ describe('AddHouse Controller', () => {
     expect(httpResponse).toEqual(serverError(fakeError))
   })
 
-  test('should call AddHouse with correct values', async () => {
-    const { sut, addHouseStub } = makeSut()
-    const addSpy = jest.spyOn(addHouseStub, 'add')
-    await sut.handle({ body: { param: 'any' } })
-    expect(addSpy).toHaveBeenCalledWith({ param: 'any' })
-  })
-
   test('should return the house on success', async () => {
     const { sut } = makeSut()
     const httpResponse = await sut.handle({ body: { param: 'any' } })

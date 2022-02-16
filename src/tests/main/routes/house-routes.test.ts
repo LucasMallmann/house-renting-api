@@ -1,7 +1,10 @@
 import request from 'supertest'
+import { hash } from 'bcrypt'
+import { sign } from 'jsonwebtoken'
 import { MongoHelper } from '@/infra/db/mongoose/helpers/mongo-helper'
 import { AccountMongooseModel } from '@/infra/db/mongoose/models/mongoose-account-model'
 import app from '@/main/config/app'
+import env from '@/main/config/env'
 
 describe('Login Routes', () => {
   beforeAll(async () => {
@@ -18,35 +21,33 @@ describe('Login Routes', () => {
 
   describe('POST /houses', () => {
     test('should return 200 on adding a house success', async () => {
-      const a = 2
-      const fakeHouse = {
-        id: 'any_id',
+      const hashedPassword = await hash('anypassword', 12)
+
+      const account = new AccountMongooseModel({
         name: 'any_name',
-        city: 'any_city',
-        location: {
-          type: 'Point',
-          coordinates: [0, 0]
-        },
-        state: 'any_state',
-        address: {
-          houseNumber: 0,
-          street: 'any_street',
-          zipCode: 'any_zipCode'
-        },
-        images: ['any_image.jpg'],
-        highlightImage: 'any_highlight_image'
-      }
+        email: 'anyemail@gmail.com',
+        password: hashedPassword
+      })
+
+      const id = account.id
+      const accessToken = sign({ id }, env.jwtSecret)
+
+      account.accessToken = accessToken
+
+      await account.save()
 
       await request(app)
         .post('/api/houses')
         .set('Content-Type', 'application/x-www-form-urlencoded')
-        .field('id', 'any_id')
+        .set('x-access-token', accessToken)
         .field('name', 'any_name')
         .field('city', 'any_city')
         .field('state', 'any_state')
-        .field('location', JSON.parse(JSON.stringify({ type: 'Point', coordinates: [0, 0] })))
-        .field('address', JSON.parse(JSON.stringify({ houseNumber: 0, street: 'any_street', zipCode: 'any_zipCode' })))
-        .field('images', ['any_image.jpg'])
+        .field('location.type', 'Point')
+        .field('location.coordinates', '[0, 2]')
+        .field('address.street', 'Rua dos Limões')
+        .field('address.houseNumber', '10')
+        .field('address.zipCode', 'code')
         .field('highlightImage', 'any_highlight_image')
         .attach('files', 'src/tests/fixtures/image.jpeg')
         .expect(200)

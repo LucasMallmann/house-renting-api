@@ -12,11 +12,34 @@ export class AddHouseController implements Controller {
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const validationError = await this.validation.validate({ ...httpRequest.body, ...httpRequest.files })
+      const validationError = await this.validation.validate({ ...httpRequest.body, images: httpRequest.files })
       if (validationError) {
         return badRequest(validationError)
       }
-      const house = await this.addHouse.add({ ...httpRequest.body, images: httpRequest.files })
+
+      const { name, city, state } = httpRequest.body
+
+      const parsedHouse = {
+        location: {
+          type: httpRequest.body['location.type'],
+          coordinates: httpRequest.body['location.coordinates'] && JSON.parse(httpRequest.body['location.coordinates'])
+        },
+        address: {
+          street: httpRequest.body['address.street'],
+          houseNumber: httpRequest.body['address.houseNumber'] && JSON.parse(httpRequest.body['address.houseNumber']),
+          zipCode: httpRequest.body['address.zipCode']
+        }
+      }
+
+      const house = await this.addHouse.add({
+        ...parsedHouse,
+        name,
+        city,
+        state,
+        images: httpRequest.files,
+        highlightImage: 'highlightImage'
+      })
+
       return ok(house)
     } catch (error) {
       return serverError(error)
