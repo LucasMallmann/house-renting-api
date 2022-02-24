@@ -1,6 +1,6 @@
 import env from '@/main/config/env'
 import { AddHouse } from '@/domain/usecases/add-house'
-import { HouseMongoRepository } from '@/infra/db/mongoose/account/house-mongo-repository'
+import { HouseMongoRepository } from '@/infra/db/mongoose/house/house-mongo-repository'
 import { DiskStorageAdapter } from '@/infra/storage/disk/disk-storage-adapter'
 import { DbAddHouse } from '@/services/usecases/add-house/db-add-house'
 

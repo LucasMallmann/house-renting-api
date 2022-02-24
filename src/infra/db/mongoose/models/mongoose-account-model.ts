@@ -25,6 +25,6 @@ const accountSchema = new mongoose.Schema({
   accessToken: {
     type: String
   }
-})
+}, { timestamps: true })
 
 export const AccountMongooseModel: Model<AccountModel> = mongoose.model('Account', accountSchema)

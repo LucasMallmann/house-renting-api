@@ -2,3 +2,5 @@ node_modules
 dist
 
 jest*.js
+
+src/tests/fixtures/image.jpeg

@@ -45,6 +45,8 @@ const houseSchema = new mongoose.Schema({
   location: {
     type: LocationSchema
   }
+}, {
+  timestamps: true
 })
 
 export const HouseMongooseModel: Model<HouseModel> = mongoose.model(

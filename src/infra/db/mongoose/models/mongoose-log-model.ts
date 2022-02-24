@@ -9,6 +9,6 @@ const logErrorSchema = new mongoose.Schema({
   stack: {
     type: String
   }
-})
+}, { timestamps: true })
 
 export const LogErrorMongooseModel: Model<LogErrorModel> = mongoose.model('LogError', logErrorSchema)

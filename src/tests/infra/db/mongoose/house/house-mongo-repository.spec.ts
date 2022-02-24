@@ -1,4 +1,4 @@
-import { HouseMongoRepository } from '@/infra/db/mongoose/account/house-mongo-repository'
+import { HouseMongoRepository } from '@/infra/db/mongoose/house/house-mongo-repository'
 import { MongoHelper } from '@/infra/db/mongoose/helpers/mongo-helper'
 import { AccountMongooseModel } from '@/infra/db/mongoose/models/mongoose-account-model'
 
