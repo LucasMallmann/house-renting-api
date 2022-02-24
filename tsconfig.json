@@ -12,5 +12,6 @@
     }
   },
   "include": ["src"],
-  "exclude": []
+  "exclude": [],
+  "files": ["src/@types/**/*.d.ts"],
 }

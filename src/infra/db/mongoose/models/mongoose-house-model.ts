@@ -2,26 +2,31 @@
 import mongoose, { Document, Model } from 'mongoose'
 
 interface HouseModel extends Document {
-  city: string
-  state: string
-  name: string
+  city: string;
+  state: string;
+  name: string;
   location: {
-    type: string,
-    coordinates: number[]
-  }
+    type: string;
+    coordinates: number[];
+  };
   address: {
-    street: string
-    houseNumber: number
-    zipCode: string
-  }
-  images: string[]
-  highlightImage: string
+    street: string;
+    houseNumber: number;
+    zipCode: string;
+  };
+  images: string[];
+  highlightImage: string;
 }
 
 const AddressSchema = new mongoose.Schema({
   street: String,
   houseNumber: Number,
   zipCode: String
+})
+
+const LocationSchema = new mongoose.Schema({
+  type: String,
+  coordinates: [Number]
 })
 
 const houseSchema = new mongoose.Schema({
@@ -37,9 +42,12 @@ const houseSchema = new mongoose.Schema({
   address: {
     type: AddressSchema
   },
-  accessToken: {
-    type: String
+  location: {
+    type: LocationSchema
   }
 })
 
-export const HouseMongooseModel: Model<HouseModel> = mongoose.model('House', houseSchema)
+export const HouseMongooseModel: Model<HouseModel> = mongoose.model(
+  'House',
+  houseSchema
+)
