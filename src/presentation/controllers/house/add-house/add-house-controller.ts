@@ -37,7 +37,8 @@ export class AddHouseController implements Controller {
         city,
         state,
         images: httpRequest.files,
-        highlightImage: 'highlightImage'
+        highlightImage: 'highlightImage',
+        price: httpRequest.body.price
       })
 
       return ok(house)

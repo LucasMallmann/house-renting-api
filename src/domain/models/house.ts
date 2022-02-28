@@ -16,4 +16,6 @@ export type HouseModel = {
   address: Address
   images: string[]
   highlightImage: string
+  createdAt: Date
+  price: number
 }

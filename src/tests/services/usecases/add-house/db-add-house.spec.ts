@@ -22,7 +22,9 @@ const makeFakeHouse = () => {
       zipCode: 'any_zipCode'
     },
     images: ['any_filename'],
-    highlightImage: 'any_highlight_image'
+    highlightImage: 'any_highlight_image',
+    createdAt: new Date(),
+    price: 100
   }
   return fakeHouse
 }
@@ -53,7 +55,8 @@ const makeFakeHouseParams = () => {
       zipCode: 'any_zipCode'
     },
     images: [fakeFile],
-    highlightImage: 'any_highlight_image'
+    highlightImage: 'any_highlight_image',
+    price: 100
   }
   return fakeHouse
 }
@@ -80,6 +83,10 @@ describe('DbAddHouse', () => {
   let sut: DbAddHouse
   let addHouseRepositoryStub: AddHouseRepository
   let uploadFile: UploadMultipleFiles
+
+  beforeAll(() => {
+    jest.useFakeTimers().setSystemTime(new Date('2022-10-10').getTime())
+  })
 
   beforeEach(() => {
     addHouseRepositoryStub = makeAddHouseRepository()
@@ -126,7 +133,9 @@ describe('DbAddHouse', () => {
         zipCode: 'any_zipCode'
       },
       images: ['any_filename'],
-      highlightImage: 'any_highlight_image'
+      highlightImage: 'any_highlight_image',
+      createdAt: new Date('2022-10-10'),
+      price: 100
     })
   })
 })

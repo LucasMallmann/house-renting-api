@@ -27,7 +27,9 @@ const makeFakeHouse = () => {
       zipCode: 'any_zipCode'
     },
     images: ['any_image'],
-    highlightImage: 'any_highlight_image'
+    highlightImage: 'any_highlight_image',
+    createdAt: new Date(),
+    price: 100
   }
   return fakeHouse
 }
@@ -61,6 +63,10 @@ const makeSut = (): SutTypes => {
 }
 
 describe('AddHouse Controller', () => {
+  beforeAll(() => {
+    jest.useFakeTimers().setSystemTime(new Date('2022-10-10').getTime())
+  })
+
   test('should return 400 if Validation returns an error', async () => {
     const { validationStub, sut } = makeSut()
     jest.spyOn(validationStub, 'validate').mockReturnValueOnce(Promise.resolve(new Error()))

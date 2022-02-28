@@ -13,5 +13,5 @@
   },
   "include": ["src"],
   "exclude": [],
-  "files": ["src/@types/**/*.d.ts"],
+  "files": ["src/@types/express.d.ts"],
 }

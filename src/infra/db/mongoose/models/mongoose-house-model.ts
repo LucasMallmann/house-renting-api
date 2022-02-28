@@ -16,6 +16,8 @@ interface HouseModel extends Document {
   };
   images: string[];
   highlightImage: string;
+  createdAt: Date;
+  price: number
 }
 
 const AddressSchema = new mongoose.Schema({
@@ -44,6 +46,12 @@ const houseSchema = new mongoose.Schema({
   },
   location: {
     type: LocationSchema
+  },
+  price: {
+    type: Number
+  },
+  createdAt: {
+    type: Date
   }
 }, {
   timestamps: true
