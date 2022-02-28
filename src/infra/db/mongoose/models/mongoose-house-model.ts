@@ -24,11 +24,15 @@ const AddressSchema = new mongoose.Schema({
   street: String,
   houseNumber: Number,
   zipCode: String
+}, {
+  _id: false
 })
 
 const LocationSchema = new mongoose.Schema({
   type: String,
   coordinates: [Number]
+}, {
+  _id: false
 })
 
 const houseSchema = new mongoose.Schema({

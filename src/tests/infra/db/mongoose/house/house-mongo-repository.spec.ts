@@ -40,8 +40,6 @@ describe('House Mongo Repository', () => {
         price: 100
       })
 
-      console.log(createdHouse.address)
-
       expect(createdHouse).toBeTruthy()
       expect(createdHouse.id).toBeTruthy()
       expect(createdHouse.name).toBe('any_name')
