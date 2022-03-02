@@ -10,5 +10,7 @@ export default {
   salt: 12,
   uploadsFolder,
   tmpFolder,
-  env: process.env.NODE_ENV ?? 'development'
+  env: process.env.NODE_ENV ?? 'development',
+  driver: process.env.STORAGE_DRIVER ?? 'disk',
+  appUrl: process.env.APP_URL ?? 'http://localhost:5050'
 }

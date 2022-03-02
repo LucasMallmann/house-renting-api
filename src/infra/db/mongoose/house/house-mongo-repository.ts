@@ -9,7 +9,7 @@ export class HouseMongoRepository implements AddHouseRepository {
   async addHouse (house: AddHouseRepositoryParams): Promise<HouseModel> {
     const houseDocument = new HouseMongooseModel(house)
     const createdHouse = await houseDocument.save()
-    const { _id, __v, ...houseData } = createdHouse.toObject()
-    return { id: _id, ...houseData }
+    const { _id, __v, images, ...houseData } = createdHouse.toObject()
+    return { id: _id, images: createdHouse.getHouseImages(), ...houseData }
   }
 }

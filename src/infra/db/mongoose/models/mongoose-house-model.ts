@@ -1,23 +1,25 @@
 // Post.ts
 import mongoose, { Document, Model } from 'mongoose'
+import env from '@/main/config/env'
 
 interface HouseModel extends Document {
-  city: string;
-  state: string;
-  name: string;
+  city: string
+  state: string
+  name: string
   location: {
-    type: string;
-    coordinates: number[];
-  };
+    type: string
+    coordinates: number[]
+  }
   address: {
-    street: string;
-    houseNumber: number;
-    zipCode: string;
-  };
-  images: string[];
-  highlightImage: string;
-  createdAt: Date;
+    street: string
+    houseNumber: number
+    zipCode: string
+  }
+  images: string[]
+  highlightImage: string
+  createdAt: Date
   price: number
+  getHouseImages: () => string[]
 }
 
 const AddressSchema = new mongoose.Schema({
@@ -56,10 +58,27 @@ const houseSchema = new mongoose.Schema({
   },
   createdAt: {
     type: Date
+  },
+  images: {
+    type: [String]
   }
 }, {
   timestamps: true
 })
+
+houseSchema.methods.getHouseImages = function (): string[] | null {
+  if (!this.images) {
+    return null
+  }
+  switch (env.driver) {
+    case 'disk':
+      return this.images.map(image => `${env.appUrl}/files/${image}`)
+    case 's3':
+      return this.images.map(image => `${env.appUrl}/files/${image}`)
+    default:
+      return null
+  }
+}
 
 export const HouseMongooseModel: Model<HouseModel> = mongoose.model(
   'House',
