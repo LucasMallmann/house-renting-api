@@ -53,4 +53,24 @@ describe('Login Routes', () => {
         .expect(200)
     })
   })
+
+  describe('GET /houses', () => {
+    test('should return 200 on load houses success', async () => {
+      const hashedPassword = await hash('anypassword', 12)
+      const account = new AccountMongooseModel({
+        name: 'any_name',
+        email: 'anyemail@gmail.com',
+        password: hashedPassword
+      })
+      const id = account.id
+      const accessToken = sign({ id }, env.jwtSecret)
+      account.accessToken = accessToken
+      await account.save()
+
+      await request(app)
+        .get('/api/houses')
+        .set('x-access-token', accessToken)
+        .expect(200)
+    })
+  })
 })
