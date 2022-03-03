@@ -18,4 +18,8 @@ export type HouseModel = {
   highlightImage: string
   createdAt: Date
   price: number
+  owner: {
+    name: string
+    email: string
+  }
 }

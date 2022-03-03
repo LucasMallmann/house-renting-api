@@ -36,6 +36,6 @@ implements
     if (account) {
       return MongoHelper.withId(account.toObject())
     }
-    return Promise.resolve(null)
+    return null
   }
 }

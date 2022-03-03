@@ -24,7 +24,11 @@ const makeFakeHouse = () => {
     images: ['any_filename'],
     highlightImage: 'any_highlight_image',
     createdAt: new Date(),
-    price: 100
+    price: 100,
+    owner: {
+      name: 'any_name',
+      email: 'any_email'
+    }
   }
   return fakeHouse
 }
@@ -56,7 +60,11 @@ const makeFakeHouseParams = () => {
     },
     images: [fakeFile],
     highlightImage: 'any_highlight_image',
-    price: 100
+    price: 100,
+    owner: {
+      name: 'any_name',
+      email: 'any_email'
+    }
   }
   return fakeHouse
 }
@@ -135,7 +143,11 @@ describe('DbAddHouse', () => {
       images: ['any_filename'],
       highlightImage: 'any_highlight_image',
       createdAt: new Date('2022-10-10'),
-      price: 100
+      price: 100,
+      owner: {
+        name: 'any_name',
+        email: 'any_email'
+      }
     })
   })
 })

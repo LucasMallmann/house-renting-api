@@ -37,18 +37,22 @@ describe('House Mongo Repository', () => {
         },
         images: ['any_image'],
         highlightImage: 'any_highlight_image',
-        price: 100
+        price: 100,
+        owner: {
+          name: 'any_name',
+          email: 'any_email'
+        }
       })
 
       expect(createdHouse).toBeTruthy()
       expect(createdHouse.id).toBeTruthy()
       expect(createdHouse.name).toBe('any_name')
       expect(createdHouse.city).toBe('any_city')
-      // expect(createdHouse.address).toEqual({
-      //   houseNumber: 0,
-      //   street: 'any_street',
-      //   zipCode: 'any_zipCode'
-      // })
+      expect(createdHouse.address).toEqual({
+        houseNumber: 0,
+        street: 'any_street',
+        zipCode: 'any_zipCode'
+      })
     })
   })
 })

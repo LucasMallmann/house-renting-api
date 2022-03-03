@@ -38,7 +38,8 @@ export class AddHouseController implements Controller {
         state,
         images: httpRequest.files,
         highlightImage: 'highlightImage',
-        price: httpRequest.body.price
+        price: httpRequest.body.price,
+        owner: (httpRequest.account)!
       })
 
       return ok(house)

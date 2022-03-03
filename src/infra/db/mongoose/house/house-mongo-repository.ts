@@ -3,13 +3,16 @@ import {
   AddHouseRepository,
   AddHouseRepositoryParams
 } from '@/services/protocols/db/house/add-house-repository'
+import { MongoHelper } from '../helpers/mongo-helper'
 import { HouseMongooseModel } from '../models/mongoose-house-model'
 
 export class HouseMongoRepository implements AddHouseRepository {
   async addHouse (house: AddHouseRepositoryParams): Promise<HouseModel> {
     const houseDocument = new HouseMongooseModel(house)
     const createdHouse = await houseDocument.save()
-    const { _id, __v, images, ...houseData } = createdHouse.toObject()
-    return { id: _id, images: createdHouse.getHouseImages(), ...houseData }
+    return {
+      ...MongoHelper.withId(createdHouse.toObject()),
+      images: createdHouse.getHouseImages()
+    }
   }
 }

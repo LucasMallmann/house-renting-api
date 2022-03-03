@@ -29,7 +29,11 @@ const makeFakeHouse = () => {
     images: ['any_image'],
     highlightImage: 'any_highlight_image',
     createdAt: new Date(),
-    price: 100
+    price: 100,
+    owner: {
+      email: 'any_email',
+      name: 'any_name'
+    }
   }
   return fakeHouse
 }
