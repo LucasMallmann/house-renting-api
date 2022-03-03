@@ -23,6 +23,7 @@ export class AddHouseControllerValidation implements Validation {
           path: Joi.string(),
           size: Joi.number()
         })),
+        price: Joi.number().required(),
         highlightImage: Joi.string().required()
       })
 

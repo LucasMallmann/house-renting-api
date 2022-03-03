@@ -12,19 +12,13 @@ implements AddHouseRepository, LoadHousesRepository {
   async addHouse (house: AddHouseRepositoryParams): Promise<HouseModel> {
     const houseDocument = new HouseMongooseModel(house)
     const createdHouse = await houseDocument.save()
-    return {
-      ...MongoHelper.withId(createdHouse.toObject()),
-      images: createdHouse.getHouseImages()
-    }
+    return MongoHelper.withId(createdHouse.toObject({ getters: true }))
   }
 
   async loadAll (): Promise<HouseModel[]> {
     const houses = await HouseMongooseModel.find()
-    return houses.map(house => {
-      return {
-        ...MongoHelper.withId(house.toObject()),
-        images: house.getHouseImages()
-      }
-    })
+    return houses.map(house =>
+      MongoHelper.withId(house.toObject({ getters: true }))
+    )
   }
 }

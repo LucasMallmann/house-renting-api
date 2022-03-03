@@ -49,6 +49,7 @@ describe('Login Routes', () => {
         .field('address.houseNumber', '10')
         .field('address.zipCode', 'code')
         .field('highlightImage', 'any_highlight_image')
+        .field('price', 100)
         .attach('files', 'src/tests/fixtures/image.jpeg')
         .expect(200)
     })

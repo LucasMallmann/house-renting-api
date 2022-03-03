@@ -81,7 +81,20 @@ const houseSchema = new mongoose.Schema(
       type: Date
     },
     images: {
-      type: [String]
+      type: [String],
+      get: (images: string[]) => {
+        if (!images) {
+          return []
+        }
+        switch (env.driver) {
+          case 'disk':
+            return images.map(image => `${env.appUrl}/files/${image}`)
+          case 's3':
+            return images.map(image => `${env.appUrl}/files/${image}`)
+          default:
+            return []
+        }
+      }
     },
     owner: OwnerSchema
   },
@@ -89,20 +102,6 @@ const houseSchema = new mongoose.Schema(
     timestamps: true
   }
 )
-
-houseSchema.methods.getHouseImages = function (): string[] | null {
-  if (!this.images) {
-    return null
-  }
-  switch (env.driver) {
-    case 'disk':
-      return this.images.map(image => `${env.appUrl}/files/${image}`)
-    case 's3':
-      return this.images.map(image => `${env.appUrl}/files/${image}`)
-    default:
-      return null
-  }
-}
 
 export const HouseMongooseModel: Model<HouseModel> = mongoose.model(
   'House',
