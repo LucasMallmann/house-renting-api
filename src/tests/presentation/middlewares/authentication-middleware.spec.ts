@@ -64,6 +64,11 @@ describe('Authentication Middleware', () => {
 
   test('should return 200 on success', async () => {
     const response = await sut.handle(makeFakeHttpRequest())
-    expect(response).toEqual(ok({ accountId: 'any_id' }))
+    expect(response).toEqual(ok({
+      account: {
+        name: 'any_name',
+        email: 'any_email'
+      }
+    }))
   })
 })
