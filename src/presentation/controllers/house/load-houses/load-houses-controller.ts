@@ -10,7 +10,7 @@ export class LoadHousesController implements Controller {
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const houses = await this.loadHouses.load()
+      const houses = await this.loadHouses.load(httpRequest.query)
       return houses?.length ? ok(houses) : noContent()
     } catch (error) {
       return serverError(error)

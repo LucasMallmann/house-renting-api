@@ -8,7 +8,8 @@ export const adaptRoute = (controller: Controller) => {
     const httpRequest: HttpRequest = {
       body: request.body,
       files: request.files as UploadFile[],
-      account: request?.account
+      account: request?.account,
+      query: request?.query
     }
 
     const httpResponse = await controller.handle(httpRequest)

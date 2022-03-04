@@ -111,7 +111,8 @@ describe('House Mongo Repository', () => {
     test('should return houses on success', async () => {
       const sut = makeSut()
       await HouseMongooseModel.insertMany(makeFakeHouses())
-      const houses = await sut.loadAll()
+      const query = { page: 1, limit: 10, sort: 'any_sort' }
+      const houses = await sut.loadAll(query)
       expect(houses).toBeTruthy()
       expect(houses.length).toBe(2)
       expect(houses[0].name).toBe('any_name_1')

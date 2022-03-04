@@ -11,6 +11,7 @@ export interface HttpRequest {
   locals?: any
   files?: UploadFile[]
   file?: any
+  query?: any
   account?: {
     name: string,
     email: string
