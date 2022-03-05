@@ -14,3 +14,8 @@
 2. ✅ Retorna erro **403** se o usuário não for admin
 3. ✅ Retorna erro **400** se os dados não forem fornecidos
 4. ✅ Retorna erro **500** se der erro ao tentar criar a casa
+
+> ## Dados que faltam na locação
+1. Metros quadrados do imóvel
+2. Número de cada cômodo
+3. Tipo do imóvel: casa, apartamento, sobrado
